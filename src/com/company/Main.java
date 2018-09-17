@@ -17,6 +17,6 @@ public class Main {
     public static void main(String[] args) {
         BasicConfigurator.configure();
         DocxLayoutManager docManager = new DocxLayoutManager("C:/Users/Brian/Desktop/Capstone Test Doc.docx");
-        docManager.docIterator();
+        System.out.println(docManager.toString());
     }
 }
