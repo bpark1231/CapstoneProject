@@ -17,6 +17,9 @@ public class Main {
     public static void main(String[] args) {
         BasicConfigurator.configure();
         DocxLayoutManager docManager = new DocxLayoutManager("C:/Users/Brian/Desktop/Capstone Test Doc.docx");
+        //DocxLayoutManager docManager = new DocxLayoutManager("C:/Users/Brian/Desktop/Logical Architecture.docx");
         System.out.println(docManager.toString());
+        docManager.printParaCharCount();
+        //docManager.testing();
     }
 }
