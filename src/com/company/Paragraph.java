@@ -1,6 +1,8 @@
 package com.company;
 
 import org.docx4j.TraversalUtil;
+import org.docx4j.XmlUtils;
+import org.docx4j.wml.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +21,35 @@ public class Paragraph {
     public Paragraph(Object para) {
         List<Object> runObjList;
         runObjList = para != null ? TraversalUtil.getChildrenImpl(para) : null;
+        String heading = Globals.DEFAULT_HEADING_TEXT;
+        if (para != null
+                && ((P) XmlUtils.unwrap(para)).getPPr() != null
+                && ((P) XmlUtils.unwrap(para)).getPPr().getPStyle() != null
+                && ((P) XmlUtils.unwrap(para)).getPPr().getPStyle().getVal() != null) {
+            heading = ((P) XmlUtils.unwrap(para)).getPPr().getPStyle().getVal();
+        }
         if (runObjList != null) {
             for (Object r : runObjList) {
                 Run run = new Run(r);
-                if (run.getRunText() != null && !run.getRunText().isEmpty()) {
+                if (run.getRunText()!= null && !run.getRunText().equals("")) {
+                    run.setHeading(heading);
                     runs.add(run);
                 }
             }
         }
     }
 
+    /**
+     * @return a list of all the runs in the paragraph
+     */
     public List<Run> getRuns() {
         return runs;
     }
 
+    /**
+     * return the char count for the paragraph
+     * @return
+     */
     public int getCharCount() {
         int count = 0;
         for (Run run : runs) {
@@ -41,6 +58,9 @@ public class Paragraph {
         return count;
     }
 
+    /**
+     * return a list of the unique styles in the paragraph
+     */
     public List<StyleCountPair> getUniqueStyles() {
         List<StyleCountPair> styleList = new ArrayList<>();
 
@@ -63,6 +83,9 @@ public class Paragraph {
         return styleList;
     }
 
+    /**
+     * check to see if the run exists within given list
+     */
     private boolean styleExistsInList(Run r, List<StyleCountPair> list) {
         boolean doesExist = false;
         for (StyleCountPair s : list) {

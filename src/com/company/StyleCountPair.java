@@ -6,7 +6,7 @@ public class StyleCountPair {
 
     public StyleCountPair(Run run) {
         this.run = run;
-        charCount = run.getCharCount();
+        charCount = run != null ? run.getCharCount() : 0;
     }
 
     public Run getRun() {
